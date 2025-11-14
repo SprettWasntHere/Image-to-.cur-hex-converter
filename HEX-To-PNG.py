@@ -12,9 +12,11 @@ def doStuff():
 
     data = binascii.unhexlify(hex_data.replace(' ', '').replace('\n', ''))
 
+    # Extract width and height from known header offsets in the HEX/BMP file.
     width = int.from_bytes(data[4:8], 'little')
-    height = int.from_bytes(data[8:12], 'little') // 2
+    height = int.from_bytes(data[8:12], 'little') // 2  # Height might be doubled depending on format, so //2
 
+    # .cur header offset. Change if your format has a different offset.
     pixel_data = data[40:]
     img_bytes = pixel_data[:width * height * 4]
 
@@ -29,5 +31,6 @@ if os.path.exists(fuck):
     doStuff()
 else:
     print("This file: [" + fuck + "] doesn't exist!")
+
 
 input('Done! Press enter to close... ')
